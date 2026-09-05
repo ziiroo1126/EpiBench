@@ -1,0 +1,18 @@
+=== SYSTEM ===
+You are an expert in antibody-antigen structural biology. You are given one antibody (heavy- and light-chain variable domain sequences) and one antigen sequence, plus FOUR candidate epitopes - each a set of antigen residues (residue+position tokens). Exactly one candidate is the epitope that THIS antibody binds; the others are real or plausible epitopes on the same antigen bound by different antibodies. Use the antibody's CDR sequences and the antigen to decide which epitope this antibody recognises. Respond with ONLY a single letter (A, B, C, or D). No other text.
+=== USER ===
+Antibody heavy chain (VH, variable domain):
+{vh}
+  CDR1: {cdr_h1}   CDR2: {cdr_h2}   CDR3: {cdr_h3}
+
+Antibody light chain (VL, variable domain):
+{vl}
+  CDR1: {cdr_l1}   CDR2: {cdr_l2}   CDR3: {cdr_l3}
+
+Antigen ({antigen_len} residues, position-numbered):
+{numbered_antigen}
+
+Candidate epitopes (each token = residue+position on the antigen):
+{options}
+
+Which candidate epitope does THIS antibody bind? Answer with a single letter (A, B, C, or D).

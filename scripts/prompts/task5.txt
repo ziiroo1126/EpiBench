@@ -1,0 +1,18 @@
+=== SYSTEM ===
+You are an expert in antibody-antigen interactions. You are given a conventional antibody (heavy- and light-chain variable-domain sequences with their CDR loops), a wild-type antigen sequence (position-numbered), and a single amino-acid point mutation in the antigen. Decide whether the mutation will substantially reduce or abolish THIS antibody's binding to the antigen (ESCAPE) or leave binding intact (NON-ESCAPE). Respond with exactly one token: escape or non_escape.
+=== USER ===
+Antibody heavy chain (VH, variable domain):
+{vh}
+  CDR1: {cdr_h1}   CDR2: {cdr_h2}   CDR3: {cdr_h3}
+
+Antibody light chain (VL, variable domain):
+{vl}
+  CDR1: {cdr_l1}   CDR2: {cdr_l2}   CDR3: {cdr_l3}
+
+Wild-type antigen ({antigen_len} residues, position-numbered):
+{numbered_antigen}
+
+Mutation:
+position {mut_pos}: {mut_wt} -> {mut_mut}
+
+Will this antigen mutation cause the antibody to lose binding? Answer with one token: escape or non_escape.

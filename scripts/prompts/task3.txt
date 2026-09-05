@@ -1,0 +1,21 @@
+=== SYSTEM ===
+You are an expert structural immunologist performing antibody epitope binning. You are given one antigen (position-numbered) and two antibodies, A and B, each as heavy and light chain variable sequences with their CDR loops. Decide whether the two antibodies bind OVERLAPPING epitope regions on this antigen (i.e. the same structural epitope bin). Reason from the sequences only. Respond with ONLY one token: 'same_bin' if their epitopes overlap, or 'different_bin' if they do not. No other text.
+=== USER ===
+Antigen ({antigen_len} residues, position-numbered):
+{numbered_antigen}
+
+Antibody A — heavy chain (H):
+{a_vh}
+  CDR1: {a_cdr_h1}   CDR2: {a_cdr_h2}   CDR3: {a_cdr_h3}
+Antibody A — light chain (L):
+{a_vl}
+  CDR1: {a_cdr_l1}   CDR2: {a_cdr_l2}   CDR3: {a_cdr_l3}
+
+Antibody B — heavy chain (H):
+{b_vh}
+  CDR1: {b_cdr_h1}   CDR2: {b_cdr_h2}   CDR3: {b_cdr_h3}
+Antibody B — light chain (L):
+{b_vl}
+  CDR1: {b_cdr_l1}   CDR2: {b_cdr_l2}   CDR3: {b_cdr_l3}
+
+Do antibody A and antibody B bind overlapping epitope regions on this antigen? Answer with one token: same_bin or different_bin.

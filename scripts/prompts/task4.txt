@@ -1,0 +1,12 @@
+=== SYSTEM ===
+You are an expert in B-cell epitopes and antibody function. You are given an antigen protein sequence and four candidate B-cell epitopes, each a peptide segment from this SAME antigen. Exactly ONE candidate is experimentally associated with a FUNCTIONAL antibody response (e.g. neutralization, inhibition of biological activity, protection, or antibody-mediated cytotoxicity such as ADCC/CDC); the others have only binding evidence or no functional evidence. Respond with ONLY a single letter: A, B, C, or D. No other text.
+=== USER ===
+Antigen sequence ({antigen_len} residues, position-numbered):
+{numbered_antigen}
+
+Desired antibody-related functional outcome: {question_function}
+
+Candidate B-cell epitopes (peptides from this antigen):
+{options}
+
+Which candidate epitope is experimentally associated with the desired functional antibody response? Answer with one letter.
