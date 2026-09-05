@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EpiBench — Can LLMs Understand Epitopes?</title>
+  <meta name="description" content="EpiBench: a sequence-based benchmark with 1,609 samples across five tasks for evaluating epitope reasoning in antibody drug discovery.">
+  <meta name="theme-color" content="#245951">
+  <meta property="og:title" content="EpiBench: Can LLMs Understand Epitopes for Antibody Drug Discovery?">
+  <meta property="og:description" content="Five tasks. 1,609 samples. A diagnostic testbed for sequence-aware biomedical LLMs.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://ziiroo1126.github.io/EpiBench/assets/figures/overview.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="assets/site/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/site/style.css">
+  <script src="assets/site/site.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#abstract">Skip to content</a>
+  <header id="top">
+    <div class="topbar wrap">
+      <a class="wordmark" href="#top"><span class="brand-dot" aria-hidden="true"></span>EpiBench</a>
+      <span class="top-note">A benchmark for epitope reasoning</span>
+      <a class="text-link" href="https://arxiv.org/abs/2608.06022">arXiv:2608.06022 <span aria-hidden="true">↗</span></a>
+    </div>
+    <div class="hero wrap">
+      <div class="hero-copy">
+        <p class="eyebrow">Sequence-based · Closed-book · Antibody-aware</p>
+        <h1><span class="title-name">EpiBench</span><span class="title-question">Can LLMs Understand Epitopes for Antibody Drug Discovery?</span></h1>
+        <p class="hero-summary">From finding a binding site to assessing escape: five connected decisions at the heart of antibody discovery.</p>
+        <div class="resource-links" aria-label="Project resources">
+          <a class="pill primary" href="https://arxiv.org/abs/2608.06022"><span aria-hidden="true">↗</span> Read the paper</a>
+          <a class="pill" href="https://huggingface.co/datasets/oteam/EpiBench">Dataset <span aria-hidden="true">↗</span></a>
+          <a class="pill" href="https://github.com/ziiroo1126/EpiBench">GitHub <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+      <figure class="hero-figure">
+        <a class="zoomable" href="assets/figures/overview.png" aria-label="Enlarge the EpiBench overview figure">
+          <img src="assets/figures/overview.png" width="1343" height="762" alt="Five EpiBench tasks, from targetable region discovery through escape assessment, with evidence sources and evaluation outputs.">
+        </a>
+        <figcaption><span>From sequence to epitope understanding</span><span class="enlarge-note">Click to enlarge <span aria-hidden="true">↗</span></span></figcaption>
+      </figure>
+    </div>
+    <div class="byline wrap">
+      <div class="authors"><h2>Authors</h2><p>Zirui Wang<sup>1,*</sup>, Jiaqi Wang<sup>1,*</sup>, Qinghan Wang<sup>1</sup>,<br class="desktop-break"> Yuzhi Xu<sup>1</sup>, Gang Du<sup>1</sup>, Tingjun Hou<sup>2</sup>, Odin Zhang<sup>1,†</sup></p></div>
+      <div><h2>Affiliations</h2><p><sup>1</sup> Valhalla Technology<br><sup>2</sup> Zhejiang University</p></div>
+      <div><h2>Publication</h2><p>August 2026 · arXiv preprint</p><p class="byline-note">* Core contributors<br>† Corresponding author</p></div>
+    </div>
+  </header>
+
+  <div class="article-layout wrap">
+    <aside class="contents" aria-label="Contents">
+      <nav><p class="eyebrow">On this page</p>
+        <a href="#abstract">Abstract</a>
+        <a href="#tasks">The five tasks</a>
+        <a href="#dataset">Inside the dataset</a>
+        <a href="#results">What the models reveal</a>
+        <a href="#get-started">Get started</a>
+        <a href="#citation">Citation</a>
+      </nav>
+    </aside>
+    <main>
+      <section id="abstract">
+        <p class="section-kicker">01 / The question</p>
+        <h2>Can sequence alone reveal where an antibody binds?</h2>
+        <p class="lead">An epitope is the region of an antigen recognized by an antibody. Where an antibody binds can shape its therapeutic function, specificity, and vulnerability to escape.</p>
+        <p>EpiBench evaluates whether general-purpose language models can use antigen and antibody sequences to reason about these decisions. Its five tasks connect binding-site discovery, antibody-conditioned identification, epitope binning, functional assessment, and mutation-specific escape.</p>
+        <p>The benchmark brings together structural contacts, functional assays, and deep mutational scanning measurements in a closed-book, automatically scorable evaluation. Across nine LLMs, the paper finds partial epitope-related competence, with persistent limitations in antibody-specific grounding and residue-level localization.</p>
+        <div class="stats" aria-label="Benchmark statistics">
+          <div><strong>1,609</strong><span>curated test samples</span></div>
+          <div><strong>5</strong><span>connected tasks</span></div>
+          <div><strong>4</strong><span>evidence sources</span></div>
+          <div><strong>9</strong><span>LLMs evaluated</span></div>
+        </div>
+      </section>
+
+      <section id="tasks">
+        <p class="section-kicker">02 / The benchmark</p>
+        <h2>Five tasks along the discovery workflow</h2>
+        <p>Each task isolates a different epitope-centered decision. Prompts retain sequence information while removing identifiers such as antigen names and PDB IDs.</p>
+        <div class="task-list">
+          <details class="task" open>
+            <summary><span class="task-number t1">T1</span><span>Targetable region discovery<small>Find candidate binding regions</small></span><span class="task-count">295 samples</span></summary>
+            <div class="task-body"><p>Given an antigen sequence alone, identify residues that belong to experimentally observed antibody-binding regions.</p><dl><div><dt>Input</dt><dd>Antigen sequence</dd></div><div><dt>Output</dt><dd>At most 50 residue positions</dd></div><div><dt>Evaluation</dt><dd>RegionRecall@50; the paper also reports AUROC</dd></div></dl></div>
+          </details>
+          <details class="task">
+            <summary><span class="task-number t2">T2</span><span>Antibody-conditioned identification<small>Connect an antibody to its epitope</small></span><span class="task-count">354 samples</span></summary>
+            <div class="task-body"><p>Select the candidate epitope recognized by a particular antibody, using both sides of the interaction.</p><dl><div><dt>Input</dt><dd>Antigen, antibody sequences, and four candidate residue sets</dd></div><div><dt>Output</dt><dd>A, B, C, or D</dd></div><div><dt>Evaluation</dt><dd>Accuracy</dd></div></dl></div>
+          </details>
+          <details class="task">
+            <summary><span class="task-number t3">T3</span><span>Epitope binning<small>Compare two antibodies on one antigen</small></span><span class="task-count">260 samples</span></summary>
+            <div class="task-body"><p>Determine whether two antibodies bind overlapping epitopes. Sampling matches antibody similarity profiles where possible to reduce similarity-only shortcuts.</p><dl><div><dt>Input</dt><dd>One antigen and two antibodies</dd></div><div><dt>Output</dt><dd><code>same_bin</code> or <code>different_bin</code></dd></div><div><dt>Evaluation</dt><dd>Dataset card: balanced accuracy; paper Table 2: accuracy</dd></div></dl></div>
+          </details>
+          <details class="task">
+            <summary><span class="task-number t4">T4</span><span>Functional epitope assessment<small>Go from binding to biological function</small></span><span class="task-count">340 samples</span></summary>
+            <div class="task-body"><p>Choose the candidate epitope supported by functional antibody evidence, including inhibition, protection, or cytotoxicity.</p><dl><div><dt>Input</dt><dd>Antigen, four candidate epitopes, and a queried function</dd></div><div><dt>Output</dt><dd>A, B, C, or D</dd></div><div><dt>Evaluation</dt><dd>Accuracy</dd></div></dl></div>
+          </details>
+          <details class="task">
+            <summary><span class="task-number t5">T5</span><span>Antibody escape assessment<small>Assess the effect of a single mutation</small></span><span class="task-count">360 samples</span></summary>
+            <div class="task-body"><p>Predict whether an antigen point mutation disrupts recognition by a specific antibody, with labels grounded in deep mutational scanning.</p><dl><div><dt>Input</dt><dd>Antibody, wild-type antigen region, and a point mutation</dd></div><div><dt>Output</dt><dd><code>escape</code> or <code>non_escape</code></dd></div><div><dt>Evaluation</dt><dd>Escape accuracy</dd></div></dl></div>
+          </details>
+        </div>
+      </section>
+
+      <section id="dataset">
+        <p class="section-kicker">03 / The evidence</p>
+        <h2>Inside the dataset</h2>
+        <p>EpiBench combines AsEP and SAbDab structural evidence, IEDB functional assays, and DMS escape measurements. All five task configurations provide a test split.</p>
+        <figure><a class="zoomable" href="assets/figures/dataset-composition.png"><img src="assets/figures/dataset-composition.png" width="1339" height="378" loading="lazy" alt="Task counts: 295, 354, 260, 340, and 360. Evidence sources: AsEP 501, SAbDab 408, IEDB 340, and DMS 360."></a><figcaption><strong>Dataset composition.</strong> Sample counts by task and evidence source. Paper Figure 2.</figcaption></figure>
+        <figure><a class="zoomable" href="assets/figures/sequence-distributions.png"><img src="assets/figures/sequence-distributions.png" width="1316" height="568" loading="lazy" alt="Stacked distributions of antigen length and epitope coverage for Tasks 1 through 4."></a><figcaption><strong>Sequence scale and coverage.</strong> Tasks 1–4 span different antigen lengths and epitope coverage ratios. Task 5 uses a fixed antigen window and has no explicit epitope set for this analysis. Paper Figure 3.</figcaption></figure>
+      </section>
+
+      <section id="results">
+        <p class="section-kicker">04 / The findings</p>
+        <h2>Partial signals. Persistent grounding gaps.</h2>
+        <p>The paper evaluates nine general-purpose LLMs under a unified zero-shot protocol that permits explicit intermediate reasoning. Performance varies substantially by task.</p>
+        <div class="table-scroll" role="region" aria-label="Model results, scroll horizontally on smaller screens" tabindex="0">
+          <table>
+            <caption>Overall results from paper Table 2 · 0–100 scale · Higher is better</caption>
+            <thead><tr><th scope="col">Model</th><th scope="col">T1<small>RegR@50</small></th><th scope="col">T1<small>AUROC</small></th><th scope="col">T2<small>Accuracy</small></th><th scope="col">T3<small>Accuracy</small></th><th scope="col">T4<small>Accuracy</small></th><th scope="col">T5<small>Accuracy</small></th></tr></thead>
+            <tbody>
+              <tr class="group"><th colspan="7" scope="colgroup">Reasoning models</th></tr>
+              <tr><th scope="row">Gemini-3-Flash</th><td><strong>56.9</strong></td><td><strong>54.6</strong></td><td>28.2</td><td>53.5</td><td><strong>35.6</strong></td><td>46.2</td></tr>
+              <tr><th scope="row">GPT-5.5</th><td>49.7</td><td>52.3</td><td>31.9</td><td><strong>67.3</strong></td><td>33.2</td><td>52.2</td></tr>
+              <tr><th scope="row">Qwen3.7-Plus</th><td>47.8</td><td>52.0</td><td>24.0</td><td>58.9</td><td>25.0</td><td>48.6</td></tr>
+              <tr><th scope="row">GLM-5.2</th><td>45.0</td><td>51.4</td><td>24.3</td><td>56.9</td><td>24.1</td><td>50.0</td></tr>
+              <tr><th scope="row">DeepSeek-V4-Pro</th><td>31.8</td><td>51.3</td><td>30.8</td><td>55.0</td><td>30.3</td><td>48.3</td></tr>
+              <tr><th scope="row">Kimi-K2.6</th><td>36.7</td><td>51.1</td><td>25.4</td><td>51.9</td><td>27.1</td><td>41.4</td></tr>
+              <tr class="group"><th colspan="7" scope="colgroup">Nonreasoning models</th></tr>
+              <tr><th scope="row">GPT-4o</th><td>38.5</td><td>50.5</td><td>25.4</td><td>51.2</td><td>23.8</td><td>52.2</td></tr>
+              <tr><th scope="row">Grok 4.20</th><td>40.8</td><td>50.9</td><td><strong>33.6</strong></td><td>65.8</td><td>30.0</td><td><strong>54.7</strong></td></tr>
+              <tr><th scope="row">Qwen3-235B</th><td>40.5</td><td>50.3</td><td>29.4</td><td>49.2</td><td>24.4</td><td>46.7</td></tr>
+              <tr class="group"><th colspan="7" scope="colgroup">Reference baselines</th></tr>
+              <tr><th scope="row">Random baseline</th><td>—</td><td>50.0</td><td>25.0</td><td>50.0</td><td>25.0</td><td>50.0</td></tr>
+              <tr><th scope="row">Specialized model</th><td>60.4</td><td>58.0</td><td>40.2</td><td>70.8</td><td>—</td><td>—</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="figure-note">Bold marks the best LLM result in each column. Specialized references use BepiPred-3.0 for T1 and EpiPred-derived baselines for T2–T3. A dash means not applicable or no directly matched reference. T3 follows the paper's accuracy reporting; the dataset card specifies balanced accuracy.</p>
+        <div class="findings">
+          <article><span>01</span><h3>Coarse localization is easier than precise discrimination.</h3><p>Region recall improves, but residue-level AUROC stays close to random. Finding broadly relevant regions does not guarantee precise interface prediction.</p></article>
+          <article><span>02</span><h3>No model leads across all five tasks.</h3><p>Gemini-3-Flash leads region discovery and functional assessment, GPT-5.5 leads binning, and Grok 4.20 leads identification and escape assessment.</p></article>
+          <article><span>03</span><h3>Antibody-specific grounding remains a bottleneck.</h3><p>Binding and escape decisions require connecting a particular antibody to individual antigen residues, beyond recognizing generic sequence properties.</p></article>
+        </div>
+        <aside class="note"><h3>A diagnostic benchmark</h3><p>Interpret scores alongside task-specific baselines. The dataset has no deposition-date or novelty split; familiar functional sites and threshold-dependent escape labels complicate conclusions about generalization.</p></aside>
+      </section>
+
+      <section id="get-started">
+        <p class="section-kicker">05 / Use EpiBench</p>
+        <h2>Start with one task</h2>
+        <p>Load a task directly from Hugging Face with the Python <code>datasets</code> library. Each record includes task-specific inputs, a gold label, and metadata.</p>
+        <div class="code-block"><div class="code-toolbar"><span>Python</span><button class="copy-button" data-copy="quickstart" hidden>Copy code</button></div><pre><code id="quickstart">from datasets import load_dataset
+
+ds = load_dataset("oteam/EpiBench", "task2", split="test")
+sample = ds[0]
+print(sample["input"])
+print(sample["label"])</code></pre></div>
+        <p>Use only the task inputs in evaluation prompts; keep gold labels separate for scoring. The repository contains JSONL data, prompt templates, and rendering code.</p>
+        <a class="inline-resource" href="https://huggingface.co/datasets/oteam/EpiBench">Explore the dataset <span aria-hidden="true">↗</span></a>
+        <a class="inline-resource" href="https://github.com/ziiroo1126/EpiBench#readme">Read the documentation <span aria-hidden="true">↗</span></a>
+      </section>
+
+      <section id="citation">
+        <p class="section-kicker">06 / Reference</p>
+        <h2>Cite EpiBench</h2>
+        <p>If EpiBench supports your research, please cite our paper.</p>
+        <div class="code-block"><div class="code-toolbar"><span>BibTeX</span><button class="copy-button" data-copy="bibtex" hidden>Copy BibTeX</button></div><pre><code id="bibtex">@misc{wang2026epibench,
+  title={EpiBench: Can LLMs Understand Epitopes for Antibody Drug Discovery?},
+  author={Zirui Wang and Jiaqi Wang and Qinghan Wang and Yuzhi Xu
+          and Gang Du and Tingjun Hou and Odin Zhang},
+  year={2026},
+  eprint={2608.06022},
+  archivePrefix={arXiv},
+  primaryClass={cs.CL},
+  url={https://arxiv.org/abs/2608.06022}
+}</code></pre></div>
+        <p id="copy-status" class="copy-status" role="status" aria-live="polite"></p>
+      </section>
+    </main>
+  </div>
+
+  <footer class="wrap"><div><a class="wordmark" href="#top">EpiBench <span aria-hidden="true">↑</span></a><p>Sequence-aware reasoning for antibody discovery.</p></div><div><p>Figures and research content: <a href="https://arxiv.org/abs/2608.06022v1">Wang et al., 2026</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.<br>Figures cropped from the paper; see <a href="assets/figures/README.md">attribution</a>.</p><p>Layout inspired by the <a href="https://edapinenut.github.io/explicitshortcut-project-page/">ExplicitShortCut project page</a>.</p></div></footer>
+  <dialog id="figure-dialog" aria-label="Enlarged paper figure"><button id="close-figure" aria-label="Close enlarged figure">Close <span aria-hidden="true">×</span></button><img id="expanded-figure" alt=""></dialog>
+</body>
+</html>

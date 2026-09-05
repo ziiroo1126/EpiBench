@@ -130,9 +130,15 @@ The paper figures in `assets/figures/` retain their **CC BY 4.0** license; see
 
 ## Repository layout
 
+The static project webpage is in [`index.html`](index.html), with styles and interactions
+in `assets/site/`. See [webpage setup](docs/project-page.md) for local preview and
+GitHub Pages publishing.
+
 ```
 EpiBench
 ├── README.md
+├── index.html                  project webpage
+├── assets/site/                webpage styles, interactions, and favicon
 ├── assets/figures/              paper figures and attribution
 ├── task1/test.jsonl             295 items
 ├── task2/test.jsonl             354 items
