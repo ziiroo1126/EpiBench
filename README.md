@@ -37,8 +37,19 @@ configs:
 
 # EpiBench
 
+[Paper](https://arxiv.org/abs/2608.06022) ·
+[Hugging Face dataset](https://huggingface.co/datasets/oteam/EpiBench)
+
 A benchmark measuring whether LLMs can locate, prioritize, and reason about **antibody
 epitopes and functional binding sites on antigens**, from sequence input alone.
+
+![EpiBench overview: five sequence-based tasks, evidence sources, and automatically scored outputs.](assets/figures/overview.png)
+
+**Benchmark overview (paper Figure 1).** Five tasks connect epitope localization,
+antibody-specific recognition, binning, functional assessment, and escape assessment
+in a closed-book evaluation.
+
+## Tasks
 
 Five tasks, 1,609 test items, all rated on sequence-only prompts. Antigens are shown
 position-numbered (10 residues per line) so a grader can verify indexing.
@@ -52,6 +63,23 @@ position-numbered (10 residues per line) so a grader can verify indexing.
 | task5 | 360 | Antibody escape: does mutation X in this antigen region cause the antibody to lose binding? (`escape` / `non_escape`) | Escape accuracy | mutation residue class: `hydrophobic`, `polar`, `pos`, `neg`, `special` |
 
 Total: 1,609 items across 5 test-only splits.
+
+## Dataset at a glance
+
+![Sample counts for the five EpiBench tasks and the AsEP, SAbDab, IEDB, and DMS evidence sources.](assets/figures/dataset-composition.png)
+
+**Dataset composition (paper Figure 2).** Samples span five tasks and four evidence
+sources: AsEP, SAbDab, IEDB, and deep mutational scanning (DMS).
+
+![Antigen length and epitope coverage distributions for Tasks 1–4, with length and coverage bins shown in the legend.](assets/figures/sequence-distributions.png)
+
+**Sequence distributions (paper Figure 3).** Antigen lengths and epitope coverage
+vary across Tasks 1–4. Task 5 uses a fixed antigen window for mutation-specific escape
+assessment and does not define an epitope residue set for this coverage analysis.
+
+Figures 1–3 are extracted from [Wang et al. (2026), arXiv:2608.06022v1](https://arxiv.org/abs/2608.06022v1)
+under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+PDF page margins and captions were cropped for display; figure content is unchanged.
 
 ## Item schema
 
@@ -118,6 +146,8 @@ Built from public antibody/antigen resources:
 
 This benchmark is released under **MIT**. Individual upstream sources retain their own
 licenses; when redistributing derived subsets please cite the underlying resource above.
+The paper figures in `assets/figures/` retain their **CC BY 4.0** license; see
+[figure attribution](assets/figures/README.md).
 
 ## Known limitations
 
@@ -138,8 +168,9 @@ licenses; when redistributing derived subsets please cite the underlying resourc
 ## Repository layout
 
 ```
-oteam/EpiBench
+EpiBench
 ├── README.md
+├── assets/figures/              paper figures and attribution
 ├── task1/test.jsonl             295 items
 ├── task2/test.jsonl             354 items
 ├── task3/test.jsonl             260 items
@@ -149,4 +180,20 @@ oteam/EpiBench
     ├── build_raw.py             re-generate task*/test.jsonl from upstream sources
     ├── render_prompts.py        raw + prompts/ -> chat-ready {system,user}
     └── prompts/task{1..5}.txt   editable prompt templates
+```
+
+## Citation
+
+If you use EpiBench, please cite the paper:
+
+```bibtex
+@misc{wang2026epibench,
+  title={EpiBench: Can LLMs Understand Epitopes for Antibody Drug Discovery?},
+  author={Zirui Wang and Jiaqi Wang and Qinghan Wang and Yuzhi Xu and Gang Du and Tingjun Hou and Odin Zhang},
+  year={2026},
+  eprint={2608.06022},
+  archivePrefix={arXiv},
+  primaryClass={cs.CL},
+  url={https://arxiv.org/abs/2608.06022}
+}
 ```
